@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">commonBase</string>
+    <string name="common_error">Có lỗi xảy ra</string>
+    <string name="session_timeout">Hết phiên đăng nhập</string>
+    <string name="error">Error</string>
+</resources>

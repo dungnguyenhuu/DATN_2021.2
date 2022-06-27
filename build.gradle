@@ -1,0 +1,65 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+    ext.kotlin_version = '1.5.21'
+    ext.compiler_version = '4.2.2'
+    ext.lifecycle_version = '2.4.0'
+    repositories {
+        google()
+        mavenCentral()
+        jcenter()
+    }
+    dependencies {
+        classpath "com.android.tools.build:gradle:4.2.2"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath 'com.google.gms:google-services:4.3.10'
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+        jcenter()
+        maven { url 'https://jitpack.io' }
+    }
+
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+ext {
+    // Sdk and tools
+    minSdkVersion = 21
+    targetSdkVersion = 32
+    compileSdkVersion = 32
+    buildToolsVersion = '27.0.3'
+
+    // App dependencies
+    gsonVersion = '2.8.2'
+    calligraphyVersion = '2.2.0'
+    glideVersion = '3.7.0'
+    rx2FastAndroidNetworking = '1.0.1'
+    room_version = "2.1.0-alpha06"
+    materialVersion = '1.1.0-alpha09'
+
+    dagger2Version = '2.14.1'
+    rxjava2Version = '2.1.9'
+    rxandroidVersion = '2.1.1'
+    placeholderviewVersion = '0.6.1'
+    debugDBVersion = '1.0.3'
+    timberVersion = '4.5.1'
+    lifecycle = '2.1.0'
+    koin_version = '2.2.3'
+    retrofit = '2.5.0'
+    okhttp = '4.2.0'
+    nav_version = '2.3.5'
+
+    // Test dependencies
+    anko_version = '0.10.8'
+}
+
+

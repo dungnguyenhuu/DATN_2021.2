@@ -1,0 +1,90 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'com.google.gms.google-services'
+
+android {
+    signingConfigs {
+        release {
+            storeFile file('..\\commonbase\\keystore.jks')
+            storePassword 'goihat'
+            keyAlias = 'goihat'
+            keyPassword 'goihat'
+        }
+        debug {
+            storeFile file("keystore-debug.jks")
+            storePassword '123456'
+            keyAlias = 'key0'
+            keyPassword '123456'
+        }
+    }
+    compileSdkVersion 32
+    flavorDimensions "default"
+    defaultConfig {
+        applicationId "vn.app.sleep"
+        minSdkVersion 21
+        targetSdkVersion 32
+        versionCode 14
+        versionName "1.1.4"
+        multiDexEnabled true
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
+    }
+    buildTypes {
+        release {
+            signingConfig signingConfigs.release
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    configurations.all {
+        exclude group: 'com.google.guava', module: 'listenablefuture'
+    }
+    dataBinding {
+        enabled = true
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    // Add for using latest experimental build of Android Extensions
+    androidExtensions {
+        experimental = true
+    }
+
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "com.google.android.material:material:$materialVersion"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation project(':commonbase')
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.1.0'
+    implementation 'cn.aigestudio.wheelpicker:WheelPicker:1.1.3'
+    implementation 'com.github.bumptech.glide:glide:4.9.0'
+    implementation 'com.google.firebase:firebase-analytics:17.5.0'
+    kapt 'com.github.bumptech.glide:compiler:4.9.0'
+    kapt "com.android.databinding:compiler:$compiler_version"
+    implementation 'com.android.support:multidex:1.0.3'
+    implementation 'android.arch.work:work-runtime:1.0.1'
+    kapt "android.arch.persistence.room:compiler:1.1.1"
+    //view model
+    implementation 'androidx.recyclerview:recyclerview:1.0.0'
+    implementation 'cn.gavinliu:ShapedImageView:0.8.6'
+    implementation 'com.github.tbruyelle:rxpermissions:0.10.2'
+    //crop image
+    api 'com.theartofdev.edmodo:android-image-cropper:2.8.0'
+    implementation("com.google.android.libraries.places:places-compat:1.0.0")
+    implementation 'com.romandanylyk:pageindicatorview:1.0.3'
+    implementation("com.schibstedspain.android:leku:5.0.0") {
+        exclude group: 'com.google.android.gms'
+        exclude module: "play-services-places"
+    }
+    implementation 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
+}

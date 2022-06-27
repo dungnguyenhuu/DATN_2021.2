@@ -1,0 +1,15 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name">News</string>
+    <string name="lost_connection">Mất kết nối</string>
+    <string name="skipLoginBtn">スキップ</string>
+    <string name="loginBtnText">新規登録</string>
+    <string name="btnLoginGoogleText">Googleで登録</string>
+    <string name="forgotCredentialText">メンバーの方はログイン</string>
+    <string name="forgotCredentialTextUnderline">ログイン</string>
+    <string name="can_not_login_google">Can not login with google account</string>
+    <string name="internal_error">Unknow Error!, please try again</string>
+    <string name="skipAuthTitle">スキップしますか？</string>
+    <string name="skipAuthSubtitle">ログインをしないでご使用の場合は、睡眠データは2週間分しか保存できません。ご注意ください。</string>
+    <string name="btnSecondText">スキップ</string>
+    <string name="btnFirstText">サインアップ</string>
+</resources>

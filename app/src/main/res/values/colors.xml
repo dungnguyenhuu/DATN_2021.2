@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#fdbc11</color>
+    <color name="colorPrimaryDark">#fdbc11</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name="gray_splash">#FFEFEFEF</color>
+    <color name="dark_bg">#FF2E2E2E</color>
+    <color name="dark_blue">#000040</color>
+    <color name="leku_white">#fff</color>
+    <color name="brand">#fdbc11</color>
+
+    <color name="textColor52">#3E4252</color>
+    <color name="textColor79">#586379</color>
+    <color name="textColorFF">#fff</color>
+    <color name="textColorEA">#3859EA</color>
+
+    <color name="borderColorFC">#5D80FC</color>
+
+    <color name="dark1">#3E4252</color>
+    <color name="dark2">#586379</color>
+    <color name="dark3">#EFF1F5</color>
+    <color name="dark4">#F8F8FA</color>
+
+    <color name="blue1">#3859EA</color>
+    <color name="blue2">#5D80FC</color>
+    <color name="blue3">#939FFF</color>
+    <color name="blue4">#DEE2FF</color>
+
+    <color name="ping1">#FF73A5</color>
+    <color name="ping2">#F496BF</color>
+    <color name="ping3">#FFE4F0</color>
+    <color name="ping4">#FFF3F8</color>
+
+    <color name="error">#FF3A5E</color>
+    <color name="error1">#FDEBEB</color>
+
+    <color name="success">#43DC92</color>
+    <color name="success1">#D7FFEC</color>
+
+    <color name="borderError">#E70000</color>
+    <color name="borderSuccess">#00BB56</color>
+
+    <color name="borderDark1">#82868C</color>
+    <color name="borderDark2">#D3D6DC</color>
+    <color name="borderDark3">#F5F6F8</color>
+
+    <color name="shadowsDefault">#10000000</color>
+    <color name="shadowsHover">#20000000</color>
+
+    <color name="warningColor">#FFB72D</color>
+
+</resources>

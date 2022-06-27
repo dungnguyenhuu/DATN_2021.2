@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1060833987149",
+    "project_id": "vn-app-sleep-dev-1639479512999",
+    "storage_bucket": "vn-app-sleep-dev-1639479512999.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1060833987149:android:b881c5a17b9fc7b59eaa04",
+        "android_client_info": {
+          "package_name": "vn.app.sleep"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1060833987149-tlgb9cff8secaacmslidlqcr1ubp0uru.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "vn.app.sleep",
+            "certificate_hash": "24582c75e4aa7332921d1d984c21bfc451caa738"
+          }
+        },
+        {
+          "client_id": "1060833987149-1nt7sdac7u58ipkmt1stt3dftif3nmh6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAsnWDv9omM-5JxF3kDuvi9_NU2MO-je2I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1060833987149-1nt7sdac7u58ipkmt1stt3dftif3nmh6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
