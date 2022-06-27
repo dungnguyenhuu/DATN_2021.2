@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
-apply plugin: 'com.google.gms.google-services'
+//apply plugin: 'com.google.gms.google-services'
 
 android {
     signingConfigs {
@@ -22,7 +22,7 @@ android {
     compileSdkVersion 32
     flavorDimensions "default"
     defaultConfig {
-        applicationId "vn.app.sleep"
+        applicationId 'vn.app.news'
         minSdkVersion 21
         targetSdkVersion 32
         versionCode 14
