@@ -1,5 +1,6 @@
 package vn.app.qrcode.ui.home
 
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import com.base.common.base.fragment.BaseMVVMFragment
@@ -24,7 +25,13 @@ class HomeFragment : BaseMVVMFragment<CommonEvent, FragmentHomeBinding, HomeView
     }
 
     private fun setupViewEvent() {
-
+        val categoryAdapter = CategoryAdapter()
+        viewDataBinding.rvListCategory.adapter = categoryAdapter
+        val categorylist = mutableListOf(
+            CategoryNews("VnExpress", Uri.parse("android.resource://com.example.android.uamp.next/drawable/ic_album")),
+            CategoryNews("News", Uri.parse("android.resource://com.example.android.uamp.next/drawable/ic_recommended")),
+        )
+        categoryAdapter.submitList(categorylist)
     }
 
 }
