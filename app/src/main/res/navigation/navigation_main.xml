@@ -33,7 +33,7 @@
 
     <fragment
         android:id="@+id/login"
-        android:name="vn.app.qrcode.ui.login.HomeFragment"
+        android:name="vn.app.qrcode.ui.home.HomeFragment"
         tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_login_to_dashBoard"

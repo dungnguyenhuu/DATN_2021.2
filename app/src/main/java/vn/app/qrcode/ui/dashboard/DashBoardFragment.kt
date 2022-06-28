@@ -25,17 +25,7 @@ class DashBoardFragment :
     }
 
     private fun setupViewEvent() {
-        viewDataBinding.btnLogout.setDebounceClickListener {
-            activity?.let {
-                viewModel.processLogout(it)
-            } ?: viewModel.errorResponse.postValue(ErrorApi(getString(R.string.internal_error), ""))
-        }
-    }
 
-    override fun onReceiverMessage(sender: Observable?, event: CommonEvent) {
-        super.onReceiverMessage(sender, event)
-        if (event is CommonEvent.Success)
-            findNavController().navigate(R.id.action_dashBoard_to_login)
     }
 
 }

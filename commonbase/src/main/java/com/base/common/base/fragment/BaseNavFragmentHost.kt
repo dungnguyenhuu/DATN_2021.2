@@ -3,8 +3,6 @@ package com.base.common.base.fragment
 import android.content.Context
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
-import androidx.activity.OnBackPressedCallback
 import androidx.databinding.ViewDataBinding
 import androidx.navigation.fragment.findNavController
 import com.base.common.base.viewmodel.BaseViewModel
@@ -39,16 +37,6 @@ abstract class BaseNavFragmentHost<E, T : ViewDataBinding, V : BaseViewModel<E>>
 
     private fun initModule(ctx: Context): List<Module> {
         val preLoadModules = arrayListOf<Module>()
-        initConfigModule(ctx)?.let { module ->
-            if (module.isNotEmpty())
-                preLoadModules.addAll(module)
-        }
-        initRepositoryModule(ctx)?.let { module ->
-            preLoadModules.add(module)
-        }
-        initUseCaseModule(ctx)?.let { module ->
-            preLoadModules.add(module)
-        }
         initViewModelModule(ctx)?.let { module ->
             preLoadModules.add(module)
         }
@@ -56,9 +44,6 @@ abstract class BaseNavFragmentHost<E, T : ViewDataBinding, V : BaseViewModel<E>>
         return preLoadModules
     }
 
-    abstract fun initConfigModule(ctx: Context): List<Module>?
-    abstract fun initRepositoryModule(ctx: Context): Module?
-    abstract fun initUseCaseModule(ctx: Context): Module?
     abstract fun initViewModelModule(ctx: Context): Module?
 
     override fun onDestroyView() {
