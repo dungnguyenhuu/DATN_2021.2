@@ -33,8 +33,16 @@ class HomeFragment : BaseMVVMFragment<CommonEvent, FragmentHomeBinding, HomeView
         }
         viewDataBinding.rvListCategory.adapter = categoryAdapter
         val categorylist = mutableListOf(
-            CategoryNews("VnExpress", Uri.parse("android.resource://vn.app.news/drawable/ic_album")),
+            CategoryNews("Express", Uri.parse("android.resource://vn.app.news/drawable/ic_album")),
             CategoryNews("News", Uri.parse("android.resource://vn.app.news/drawable/ic_recommended")),
+            CategoryNews("News", Uri.parse("android.resource://vn.app.news/drawable/ic_recommended")),
+            CategoryNews("News", Uri.parse("android.resource://vn.app.news/drawable/ic_recommended")),
+            CategoryNews("News", Uri.parse("android.resource://vn.app.news/drawable/ic_recommended")),
+            CategoryNews("News", Uri.parse("android.resource://vn.app.news/drawable/ic_recommended")),
+            CategoryNews("News", Uri.parse("android.resource://vn.app.news/drawable/ic_recommended")),
+            CategoryNews("News", Uri.parse("android.resource://vn.app.news/drawable/ic_recommended")),
+            CategoryNews("News", Uri.parse("android.resource://vn.app.news/drawable/ic_recommended")),
+
         )
         categoryAdapter.submitList(categorylist)
 

@@ -72,4 +72,9 @@
         <item name="android:textAppearance">@style/TextNotoStyle.Body1</item>
     </style>
 
+    <style name="TextNotoStyle.TextLarge">
+        <item name="android:textSize">@dimen/font_size_large</item>
+        <item name="fontWeight">400</item>
+    </style>
+
 </resources>
