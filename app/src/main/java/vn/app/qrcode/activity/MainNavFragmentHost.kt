@@ -6,6 +6,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.module.Module
 import vn.app.qrcode.R
 import vn.app.qrcode.databinding.FragmentMainBinding
+import vn.app.qrcode.di.module.musicConnectionModule
 import vn.app.qrcode.di.module.viewModelModule
 
 class MainNavFragmentHost :
@@ -16,4 +17,5 @@ class MainNavFragmentHost :
     override val viewModel: MainNavFragmentViewModel by viewModel()
 
     override fun initViewModelModule(ctx: Context): Module = viewModelModule
+    override fun initMusicConnectionModule(ctx: Context): Module = musicConnectionModule
 }

@@ -3,8 +3,10 @@ package vn.app.qrcode.ui.home
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import androidx.lifecycle.Observer
 import com.base.common.base.fragment.BaseMVVMFragment
 import com.base.common.base.viewmodel.CommonEvent
+import com.example.android.uamp.media.library.UAMP_BROWSABLE_ROOT
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import vn.app.qrcode.R
 import vn.app.qrcode.databinding.FragmentHomeBinding
@@ -25,13 +27,21 @@ class HomeFragment : BaseMVVMFragment<CommonEvent, FragmentHomeBinding, HomeView
     }
 
     private fun setupViewEvent() {
-        val categoryAdapter = CategoryAdapter()
+        val categoryAdapter = CategoryAdapter{ clickedItem ->
+            println("AAA click item $clickedItem")
+            viewModel.subscribeService(UAMP_BROWSABLE_ROOT)
+        }
         viewDataBinding.rvListCategory.adapter = categoryAdapter
         val categorylist = mutableListOf(
-            CategoryNews("VnExpress", Uri.parse("android.resource://com.example.android.uamp.next/drawable/ic_album")),
-            CategoryNews("News", Uri.parse("android.resource://com.example.android.uamp.next/drawable/ic_recommended")),
+            CategoryNews("VnExpress", Uri.parse("android.resource://vn.app.news/drawable/ic_album")),
+            CategoryNews("News", Uri.parse("android.resource://vn.app.news/drawable/ic_recommended")),
         )
         categoryAdapter.submitList(categorylist)
+
+        viewModel.mediaItems.observe(viewLifecycleOwner,
+            Observer { list ->
+                println("AAA list ${list.size}")
+            })
     }
 
 }

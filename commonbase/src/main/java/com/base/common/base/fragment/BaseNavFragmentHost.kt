@@ -40,11 +40,14 @@ abstract class BaseNavFragmentHost<E, T : ViewDataBinding, V : BaseViewModel<E>>
         initViewModelModule(ctx)?.let { module ->
             preLoadModules.add(module)
         }
-
+        initMusicConnectionModule(ctx)?.let { module ->
+            preLoadModules.add(module)
+        }
         return preLoadModules
     }
 
     abstract fun initViewModelModule(ctx: Context): Module?
+    abstract fun initMusicConnectionModule(ctx: Context): Module?
 
     override fun onDestroyView() {
         context?.let { ctx ->

@@ -11,7 +11,7 @@ import vn.app.qrcode.ui.splash.SplashViewModel
 val viewModelModule = module {
     viewModel { MainNavFragmentViewModel() }
     viewModel { SplashViewModel() }
-    viewModel { HomeViewModel() }
+    viewModel { HomeViewModel(get()) }
     viewModel { DashBoardViewModel() }
     viewModel { SkipAuthViewModel() }
 }

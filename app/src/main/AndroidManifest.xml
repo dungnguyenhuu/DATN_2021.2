@@ -19,7 +19,14 @@
             tools:ignore="AllowBackup,GoogleAppIndexingWarning"
             tools:replace="android:name"
             tools:targetApi="n">
+        <!-- Declare that UAMP supports Android Auto. -->
+        <meta-data
+            android:name="com.google.android.gms.car.application"
+            android:resource="@xml/automotive_app_desc" />
 
+        <!-- Declare that UAMP supports Cast. -->
+        <meta-data android:name="com.google.android.gms.cast.framework.OPTIONS_PROVIDER_CLASS_NAME"
+            android:value="com.example.android.uamp.cast.UampCastOptionsProvider"/>
         <activity
             android:exported="true"
             android:name="vn.app.qrcode.activity.MainActivity"
@@ -33,6 +40,21 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!--
+        Declare the common MediaBrowserService for use in the mobile app, including
+        with the Android Auto app.
+        -->
+        <service
+            android:name="com.example.android.uamp.media.MusicService"
+            android:enabled="true"
+            android:exported="true"
+            tools:ignore="ExportedService">
+
+            <intent-filter>
+                <action android:name="android.media.browse.MediaBrowserService" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

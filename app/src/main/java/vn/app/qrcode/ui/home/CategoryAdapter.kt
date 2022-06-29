@@ -10,15 +10,23 @@ import com.bumptech.glide.Glide
 import vn.app.qrcode.R
 import vn.app.qrcode.databinding.ItemCategoryNewsBinding
 
-class CategoryAdapter: ListAdapter<CategoryNews, CategoryAdapter.CategoryViewHolder>(DiffCallback) {
+class CategoryAdapter(
+    private val itemClickedListener: (String) -> Unit
+): ListAdapter<CategoryNews, CategoryAdapter.CategoryViewHolder>(DiffCallback) {
 
-    class CategoryViewHolder( private val binding: ItemCategoryNewsBinding): RecyclerView.ViewHolder(binding.root) {
+    class CategoryViewHolder(
+        private val binding: ItemCategoryNewsBinding,
+        private val itemClickedListener: (String) -> Unit
+    ): RecyclerView.ViewHolder(binding.root) {
         fun bind(item: CategoryNews) {
             binding.tvCategoryName.text = item.name
             Glide.with(binding.ivCategoryLogo)
                 .load(item.imageUri)
                 .placeholder(R.drawable.ic_logo)
                 .into(binding.ivCategoryLogo)
+            binding.root.setOnClickListener {
+                itemClickedListener(item.name)
+            }
             binding.executePendingBindings()
         }
     }
@@ -37,7 +45,7 @@ class CategoryAdapter: ListAdapter<CategoryNews, CategoryAdapter.CategoryViewHol
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
         return CategoryViewHolder(ItemCategoryNewsBinding.inflate(LayoutInflater.from(parent.context),
             parent,
-            false))
+            false), itemClickedListener)
     }
 
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
@@ -45,6 +53,8 @@ class CategoryAdapter: ListAdapter<CategoryNews, CategoryAdapter.CategoryViewHol
         holder.bind(item)
     }
 }
+
+
 
 data class CategoryNews(
     val name: String,
