@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.base.common.base.viewmodel.BaseViewModel
 import com.base.common.base.viewmodel.CommonEvent
 import com.example.android.uamp.common.EMPTY_PLAYBACK_STATE
@@ -16,6 +17,9 @@ import com.example.android.uamp.common.MusicServiceConnection
 import com.example.android.uamp.common.NOTHING_PLAYING
 import com.example.android.uamp.media.extensions.id
 import com.example.android.uamp.media.extensions.isPlaying
+import com.example.android.uamp.media.model.ItemNews
+import com.example.android.uamp.media.network.MarsApi
+import kotlinx.coroutines.launch
 import vn.app.qrcode.R
 import vn.app.qrcode.data.model.MediaItemData
 
@@ -33,6 +37,9 @@ class HomeViewModel(
      */
     private val _mediaItems = MutableLiveData<List<MediaItemData>>()
     val mediaItems: LiveData<List<MediaItemData>> = _mediaItems
+
+    private val _itemNewsList = MutableLiveData<List<ItemNews>>()
+    val itemNewsList: LiveData<List<ItemNews>> = _itemNewsList
 
     /**
      * Pass the status of the [MusicServiceConnection.networkFailure] through.
@@ -157,6 +164,17 @@ class HomeViewModel(
             val useResId = if (it.mediaId == mediaMetadata.id) newResId else NO_RES
             it.copy(playbackRes = useResId)
         } ?: emptyList()
+    }
+
+    fun getItemNewsList() {
+        viewModelScope.launch {
+            val rssObject = MarsApi.retrofitService.getAllFeeds("https://vnexpress.net/rss/tin-moi-nhat.rss")
+            _itemNewsList.value = rssObject.items
+        }
+    }
+
+    init {
+        getItemNewsList()
     }
 }
 
