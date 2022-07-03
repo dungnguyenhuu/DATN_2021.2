@@ -44,7 +44,8 @@ class NewsViewModel(
                     subtitle.toString(),
                     child.description.iconUri ?: Uri.parse("android.resource://vn.app.news/drawable/ic_album"),
                     child.isBrowsable,
-                    getResourceForMediaId(child.mediaId!!)
+                    getResourceForMediaId(child.mediaId!!),
+                    mediaUri = child.description.mediaUri.toString()
                 )
             }
             _mediaItems.postValue(itemsList)

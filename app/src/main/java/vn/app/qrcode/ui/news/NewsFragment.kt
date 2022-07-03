@@ -2,6 +2,7 @@ package vn.app.qrcode.ui.news
 
 import android.os.Bundle
 import android.view.View
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.base.common.base.fragment.BaseMVVMFragment
 import com.base.common.base.viewmodel.CommonEvent
@@ -30,7 +31,7 @@ class NewsFragment : BaseMVVMFragment<CommonEvent, FragmentNewsBinding, NewsView
     private fun setupViewEvent() {
         viewModel.subscribeService(args.mediaId)
         val newsAdapter = News1Adapter { item ->
-            println("AAA ${item.title}")
+            findNavController().navigate(NewsFragmentDirections.actionNewsFragmentToDetailFragment(item))
         }
         viewDataBinding.rvNewsList.adapter = newsAdapter
         viewModel.mediaItems.observe(viewLifecycleOwner) { items ->

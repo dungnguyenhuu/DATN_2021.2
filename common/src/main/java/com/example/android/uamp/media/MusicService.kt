@@ -329,8 +329,6 @@ open class MusicService : MediaBrowserServiceCompat(), TextToSpeech.OnInitListen
         }
     }
 
-    private var newsType = -1
-    private var isCallApi = false
     private var listItemNews = listOf<ItemNews>()
 
     private var listMediaMetaData = mutableListOf<MediaMetadataCompat>()

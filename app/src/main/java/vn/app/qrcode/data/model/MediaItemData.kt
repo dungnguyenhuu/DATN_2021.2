@@ -1,16 +1,20 @@
 package vn.app.qrcode.data.model
 
 import android.net.Uri
+import android.os.Parcelable
 import androidx.recyclerview.widget.DiffUtil
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class MediaItemData(
     val mediaId: String,
     val title: String,
     val subtitle: String,
     val albumArtUri: Uri,
     val browsable: Boolean,
-    var playbackRes: Int
-) {
+    var playbackRes: Int,
+    var mediaUri: String? = null,
+): Parcelable {
 
     companion object {
         /**
