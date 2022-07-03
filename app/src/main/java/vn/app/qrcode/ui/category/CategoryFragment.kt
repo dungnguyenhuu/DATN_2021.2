@@ -2,12 +2,14 @@ package vn.app.qrcode.ui.category
 
 import android.os.Bundle
 import android.view.View
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.base.common.base.fragment.BaseMVVMFragment
 import com.base.common.base.viewmodel.CommonEvent
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import vn.app.qrcode.R
 import vn.app.qrcode.databinding.FragmentCategoryBinding
+import vn.app.qrcode.ui.home.HomeFragmentDirections
 
 class CategoryFragment : BaseMVVMFragment<CommonEvent, FragmentCategoryBinding, CategoryViewModel>() {
     override val layoutId: Int
@@ -25,6 +27,7 @@ class CategoryFragment : BaseMVVMFragment<CommonEvent, FragmentCategoryBinding, 
         viewModel.subscribeService(args.mediaId)
         val categoryNewAdapter = CategoryAdapter { clickedItem ->
             println("AAA ${clickedItem.mediaId}")
+            findNavController().navigate(CategoryFragmentDirections.actionCategoryFragmentToNewsFragment(clickedItem.mediaId))
         }
 
         viewDataBinding.rvNewsCategory.adapter = categoryNewAdapter
