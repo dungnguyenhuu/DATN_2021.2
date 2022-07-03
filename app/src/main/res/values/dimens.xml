@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="height_search_header">40dp</dimen>
+    <dimen name="text_margin">16dp</dimen>
+    <dimen name="media_item_art">72dp</dimen>
+    <dimen name="media_item_control_margin">4dp</dimen>
+
+    <dimen name="media_item_radius">4dp</dimen>
+    <dimen name="media_item_half_radius">2dp</dimen>
+    <dimen name="media_item_negative_half_radius">-2dp</dimen>
 </resources>

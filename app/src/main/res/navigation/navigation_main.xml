@@ -13,7 +13,7 @@
         tools:layout="@layout/fragment_splash">
         <action
             android:id="@+id/action_splash_to_login"
-            app:destination="@id/login"
+            app:destination="@id/home"
             app:enterAnim="@anim/fragment_open_enter"
             app:exitAnim="@anim/fragment_open_exit"
             app:popEnterAnim="@anim/fragment_close_enter"
@@ -32,7 +32,7 @@
     </fragment>
 
     <fragment
-        android:id="@+id/login"
+        android:id="@+id/home"
         android:name="vn.app.qrcode.ui.home.HomeFragment"
         tools:layout="@layout/fragment_home">
         <action
@@ -51,6 +51,9 @@
             app:exitAnim="@anim/fragment_open_exit"
             app:popEnterAnim="@anim/fragment_close_enter"
             app:popExitAnim="@anim/fragment_close_exit" />
+        <action
+            android:id="@+id/action_login_to_categoryFragment"
+            app:destination="@id/categoryFragment" />
     </fragment>
 
     <fragment
@@ -59,7 +62,7 @@
         tools:layout="@layout/fragment_dashboard">
         <action
             android:id="@+id/action_dashBoard_to_login"
-            app:destination="@id/login"
+            app:destination="@id/home"
             app:enterAnim="@anim/fragment_open_enter"
             app:exitAnim="@anim/fragment_open_exit"
             app:popEnterAnim="@anim/fragment_close_enter"
@@ -72,4 +75,13 @@
         android:id="@+id/skipAuth"
         android:name="vn.app.qrcode.ui.skipauth.SkipAuthFragment"
         tools:layout="@layout/fragment_skip_auth" />
+    <fragment
+        android:id="@+id/categoryFragment"
+        android:name="vn.app.qrcode.ui.category.CategoryFragment"
+        android:label="CategoryFragment"
+        tools:layout="@layout/fragment_category">
+        <argument
+            android:name="mediaId"
+            app:argType="string" />
+    </fragment>
 </navigation>

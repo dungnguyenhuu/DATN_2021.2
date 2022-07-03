@@ -4,9 +4,13 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import com.base.common.base.fragment.BaseMVVMFragment
 import com.base.common.base.viewmodel.CommonEvent
+import com.example.android.uamp.common.Utils
 import com.example.android.uamp.media.library.UAMP_BROWSABLE_ROOT
+import com.example.android.uamp.media.library.UAMP_RECOMMENDED_ROOT
+import com.example.android.uamp.media.model.PrefixRoot
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import vn.app.qrcode.R
 import vn.app.qrcode.databinding.FragmentHomeBinding
@@ -30,7 +34,8 @@ class HomeFragment : BaseMVVMFragment<CommonEvent, FragmentHomeBinding, HomeView
     private fun setupViewEvent() {
         val categoryAdapter = CategoryAdapter { clickedItem ->
             println("AAA click item $clickedItem")
-            viewModel.subscribeService(UAMP_BROWSABLE_ROOT)
+            val mediaId = Utils.generalMediaItemId(PrefixRoot.LOC, UAMP_RECOMMENDED_ROOT)
+            findNavController().navigate(HomeFragmentDirections.actionLoginToCategoryFragment(mediaId))
         }
         viewDataBinding.rvListCategory.adapter = categoryAdapter
         val categorylist = mutableListOf(
