@@ -32,53 +32,15 @@ class HomeFragment : BaseMVVMFragment<CommonEvent, FragmentHomeBinding, HomeView
     }
 
     private fun setupViewEvent() {
+        viewModel.subscribeService(UAMP_BROWSABLE_ROOT)
         val categoryAdapter = CategoryAdapter { clickedItem ->
-            println("AAA click item $clickedItem")
-            val mediaId = Utils.generalMediaItemId(PrefixRoot.LOC, UAMP_RECOMMENDED_ROOT)
-            findNavController().navigate(HomeFragmentDirections.actionLoginToCategoryFragment(mediaId))
+            findNavController().navigate(HomeFragmentDirections.actionLoginToCategoryFragment(clickedItem.mediaId))
         }
         viewDataBinding.rvListCategory.adapter = categoryAdapter
-        val categorylist = mutableListOf(
-            CategoryNews("Express", Uri.parse("android.resource://vn.app.news/drawable/ic_album")),
-            CategoryNews(
-                "News",
-                Uri.parse("android.resource://vn.app.news/drawable/ic_recommended")
-            ),
-            CategoryNews(
-                "News",
-                Uri.parse("android.resource://vn.app.news/drawable/ic_recommended")
-            ),
-            CategoryNews(
-                "News",
-                Uri.parse("android.resource://vn.app.news/drawable/ic_recommended")
-            ),
-            CategoryNews(
-                "News",
-                Uri.parse("android.resource://vn.app.news/drawable/ic_recommended")
-            ),
-            CategoryNews(
-                "News",
-                Uri.parse("android.resource://vn.app.news/drawable/ic_recommended")
-            ),
-            CategoryNews(
-                "News",
-                Uri.parse("android.resource://vn.app.news/drawable/ic_recommended")
-            ),
-            CategoryNews(
-                "News",
-                Uri.parse("android.resource://vn.app.news/drawable/ic_recommended")
-            ),
-            CategoryNews(
-                "News",
-                Uri.parse("android.resource://vn.app.news/drawable/ic_recommended")
-            ),
-
-            )
-        categoryAdapter.submitList(categorylist)
 
         viewModel.mediaItems.observe(viewLifecycleOwner,
             Observer { list ->
-                println("AAA list ${list.size}")
+                categoryAdapter.submitList(list)
             })
     }
 

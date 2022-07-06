@@ -8,38 +8,28 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import vn.app.qrcode.R
+import vn.app.qrcode.data.model.MediaItemData
 import vn.app.qrcode.databinding.ItemCategoryNewsBinding
 
 class CategoryAdapter(
-    private val itemClickedListener: (String) -> Unit
-): ListAdapter<CategoryNews, CategoryAdapter.CategoryViewHolder>(DiffCallback) {
+    private val itemClickedListener: (MediaItemData) -> Unit
+): ListAdapter<MediaItemData, CategoryAdapter.CategoryViewHolder>(MediaItemData.diffCallback) {
 
     class CategoryViewHolder(
         private val binding: ItemCategoryNewsBinding,
-        private val itemClickedListener: (String) -> Unit
+        private val itemClickedListener: (MediaItemData) -> Unit
     ): RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: CategoryNews) {
-            binding.tvCategoryName.text = item.name
+        fun bind(item: MediaItemData) {
+            binding.tvCategoryName.text = item.title
             Glide.with(binding.ivCategoryLogo)
-                .load(item.imageUri)
+                .load(item.albumArtUri)
                 .placeholder(R.drawable.ic_logo)
                 .into(binding.ivCategoryLogo)
             binding.root.setOnClickListener {
-                itemClickedListener(item.name)
+                itemClickedListener(item)
             }
             binding.executePendingBindings()
         }
-    }
-
-    companion object DiffCallback: DiffUtil.ItemCallback<CategoryNews>() {
-        override fun areItemsTheSame(oldItem: CategoryNews, newItem: CategoryNews): Boolean {
-            return oldItem == newItem
-        }
-
-        override fun areContentsTheSame(oldItem: CategoryNews, newItem: CategoryNews): Boolean {
-            return oldItem.name == newItem.name
-        }
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {

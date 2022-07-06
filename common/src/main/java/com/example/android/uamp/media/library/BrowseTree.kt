@@ -210,4 +210,4 @@ const val UAMP_RECENT_ROOT = "__RECENT__"
 
 const val MEDIA_SEARCH_SUPPORTED = "android.media.browse.SEARCH_SUPPORTED"
 
-const val RESOURCE_ROOT_URI = "android.resource://com.example.android.uamp.next/drawable/"
+const val RESOURCE_ROOT_URI = "android.resource://vn.app.news/drawable/"
