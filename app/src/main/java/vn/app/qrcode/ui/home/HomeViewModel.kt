@@ -24,8 +24,8 @@ import vn.app.qrcode.R
 import vn.app.qrcode.data.model.MediaItemData
 
 class HomeViewModel(
-   musicServiceConnection: MusicServiceConnection
-): BaseViewModel<CommonEvent>() {
+    musicServiceConnection: MusicServiceConnection
+) : BaseViewModel<CommonEvent>() {
 
     companion object {
         const val TAG = "HomeViewModel"
@@ -38,8 +38,8 @@ class HomeViewModel(
     private val _mediaItems = MutableLiveData<List<MediaItemData>>()
     val mediaItems: LiveData<List<MediaItemData>> = _mediaItems
 
-    private val _itemNewsList = MutableLiveData<List<ItemNews>>()
-    val itemNewsList: LiveData<List<ItemNews>> = _itemNewsList
+    private val _itemNewsList = MutableLiveData<List<MediaItemData>>()
+    val itemNewsList: LiveData<List<MediaItemData>> = _itemNewsList
 
     /**
      * Pass the status of the [MusicServiceConnection.networkFailure] through.
@@ -47,19 +47,45 @@ class HomeViewModel(
     val networkError = Transformations.map(musicServiceConnection.networkFailure) { it }
 
     private val subscriptionCallback = object : MediaBrowserCompat.SubscriptionCallback() {
-        override fun onChildrenLoaded(parentId: String, children: List<MediaBrowserCompat.MediaItem>) {
+        override fun onChildrenLoaded(
+            parentId: String,
+            children: List<MediaBrowserCompat.MediaItem>
+        ) {
             val itemsList = children.map { child ->
                 val subtitle = child.description.subtitle ?: ""
                 MediaItemData(
                     child.mediaId!!,
                     child.description.title.toString(),
                     subtitle.toString(),
-                    child.description.iconUri ?: Uri.parse("android.resource://vn.app.news/drawable/ic_album"),
+                    child.description.iconUri
+                        ?: Uri.parse("android.resource://vn.app.news/drawable/ic_album"),
                     child.isBrowsable,
                     getResourceForMediaId(child.mediaId!!)
                 )
             }
             _mediaItems.postValue(itemsList)
+        }
+    }
+
+    private val newsSubscriptionCallback = object : MediaBrowserCompat.SubscriptionCallback() {
+        override fun onChildrenLoaded(
+            parentId: String,
+            children: List<MediaBrowserCompat.MediaItem>
+        ) {
+            val itemsList = children.map { child ->
+                val subtitle = child.description.subtitle ?: ""
+                MediaItemData(
+                    child.mediaId!!,
+                    child.description.title.toString(),
+                    subtitle.toString(),
+                    child.description.iconUri
+                        ?: Uri.parse("android.resource://vn.app.news/drawable/ic_logo"),
+                    child.isBrowsable,
+                    getResourceForMediaId(child.mediaId!!),
+                    mediaUri = child.description.mediaUri.toString()
+                )
+            }
+            _itemNewsList.postValue(itemsList)
         }
     }
 
@@ -118,6 +144,10 @@ class HomeViewModel(
         musicServiceConnection.subscribe(mediaId, subscriptionCallback)
     }
 
+    fun getNewsSubscribeService(mediaId: String) {
+        musicServiceConnection.subscribe(mediaId, newsSubscriptionCallback)
+    }
+
     fun unSubscribeService(mediaId: String) {
         musicServiceConnection.unsubscribe(mediaId, subscriptionCallback)
     }
@@ -166,15 +196,15 @@ class HomeViewModel(
         } ?: emptyList()
     }
 
-    fun getItemNewsList() {
-        viewModelScope.launch {
-            val rssObject = MarsApi.retrofitService.getAllFeeds("https://vnexpress.net/rss/tin-moi-nhat.rss")
-            _itemNewsList.value = rssObject.items
-        }
-    }
+//    fun getItemNewsList() {
+//        viewModelScope.launch {
+//            val rssObject = MarsApi.retrofitService.getAllFeeds("https://vnexpress.net/rss/tin-moi-nhat.rss")
+//            _itemNewsList.value = rssObject.items
+//        }
+//    }
 
     init {
-        getItemNewsList()
+//        getItemNewsList()
     }
 }
 

@@ -44,9 +44,11 @@ class HomeFragment : BaseMVVMFragment<CommonEvent, FragmentHomeBinding, HomeView
             })
     }
 
-    fun setupNewsRecycleView() {
+    private fun setupNewsRecycleView() {
+        val mediaId = Utils.generalMediaItemId(PrefixRoot.API, "vne-tin-moi-nhat")
+        viewModel.getNewsSubscribeService(mediaId)
         val newsAdapter = NewsAdapter { item ->
-            println("AAA ${item.title}")
+           findNavController().navigate(HomeFragmentDirections.actionHomeToDetailFragment(item))
         }
         viewDataBinding.rvNewsList.adapter = newsAdapter
         viewModel.itemNewsList.observe(viewLifecycleOwner) { items ->

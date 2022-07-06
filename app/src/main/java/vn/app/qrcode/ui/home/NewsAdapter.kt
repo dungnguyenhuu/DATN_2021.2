@@ -8,20 +8,21 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.android.uamp.media.model.ItemNews
 import vn.app.qrcode.R
+import vn.app.qrcode.data.model.MediaItemData
 import vn.app.qrcode.databinding.ItemLargeNewsBinding
 
 class NewsAdapter(
-    private val itemClickedListener: (ItemNews) -> Unit
-): ListAdapter<ItemNews, NewsAdapter.ItemNewsViewHolder>(DiffCallback) {
+    private val itemClickedListener: (MediaItemData) -> Unit
+): ListAdapter<MediaItemData, NewsAdapter.ItemNewsViewHolder>(MediaItemData.diffCallback) {
 
     class ItemNewsViewHolder(
         private val binding: ItemLargeNewsBinding,
-        private val itemClickedListener: (ItemNews) -> Unit
+        private val itemClickedListener: (MediaItemData) -> Unit
     ): RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: ItemNews) {
+        fun bind(item: MediaItemData) {
             binding.tvTitleNews.text = item.title
             Glide.with(binding.ivNewsThumbnail)
-                .load(item.thumbnail)
+                .load(item.albumArtUri)
                 .placeholder(R.drawable.ic_logo)
                 .into(binding.ivNewsThumbnail)
             binding.root.setOnClickListener {
@@ -29,17 +30,6 @@ class NewsAdapter(
             }
             binding.executePendingBindings()
         }
-    }
-
-    companion object DiffCallback: DiffUtil.ItemCallback<ItemNews>() {
-        override fun areItemsTheSame(oldItem: ItemNews, newItem: ItemNews): Boolean {
-            return oldItem == newItem
-        }
-
-        override fun areContentsTheSame(oldItem: ItemNews, newItem: ItemNews): Boolean {
-            return oldItem.link == newItem.link
-        }
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemNewsViewHolder {
