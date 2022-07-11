@@ -21,6 +21,7 @@ class NewsAdapter(
     ): RecyclerView.ViewHolder(binding.root) {
         fun bind(item: MediaItemData) {
             binding.tvTitleNews.text = item.title
+            binding.tvPubDate.text = item.pubDate
             Glide.with(binding.ivNewsThumbnail)
                 .load(item.albumArtUri)
                 .placeholder(R.drawable.ic_logo)

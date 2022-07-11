@@ -171,6 +171,13 @@ inline var MediaMetadataCompat.Builder.genre: String?
         putString(MediaMetadataCompat.METADATA_KEY_GENRE, value)
     }
 
+inline var MediaMetadataCompat.Builder.date: String?
+    @Deprecated(NO_GET, level = DeprecationLevel.ERROR)
+    get() = throw IllegalAccessException("Cannot get from MediaMetadataCompat.Builder")
+    set(value) {
+        putString(MediaMetadataCompat.METADATA_KEY_DATE, value)
+    }
+
 inline var MediaMetadataCompat.Builder.mediaUri: String?
     @Deprecated(NO_GET, level = DeprecationLevel.ERROR)
     get() = throw IllegalAccessException("Cannot get from MediaMetadataCompat.Builder")

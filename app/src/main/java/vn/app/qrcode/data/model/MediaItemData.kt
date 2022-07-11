@@ -14,6 +14,7 @@ data class MediaItemData(
     val browsable: Boolean,
     var playbackRes: Int,
     var mediaUri: String? = null,
+    var pubDate: String?= null,
 ): Parcelable {
 
     companion object {

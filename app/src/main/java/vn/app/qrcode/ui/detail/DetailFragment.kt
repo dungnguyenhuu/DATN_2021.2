@@ -80,7 +80,6 @@ class DetailFragment : BaseMVVMFragment<CommonEvent, FragmentDetailBinding, Deta
     }
 
     private fun setWebView() {
-        println("AAA ${args.mediaItem}")
         viewDataBinding.webView.apply {
             webViewClient = WebViewClient()
             args.mediaItem.mediaUri?.let { loadUrl(it) }

@@ -82,7 +82,7 @@ class HomeViewModel(
                         ?: Uri.parse("android.resource://vn.app.news/drawable/ic_logo"),
                     child.isBrowsable,
                     getResourceForMediaId(child.mediaId!!),
-                    mediaUri = child.description.mediaUri.toString()
+                    mediaUri = child.description.mediaUri.toString(),
                 )
             }
             _itemNewsList.postValue(itemsList)
@@ -166,8 +166,6 @@ class HomeViewModel(
         musicServiceConnection.playbackState.removeObserver(playbackStateObserver)
         musicServiceConnection.nowPlaying.removeObserver(mediaMetadataObserver)
 
-        // And then, finally, unsubscribe the media ID that was being watched.
-//        musicServiceConnection.unsubscribe(mediaId, subscriptionCallback)
     }
 
     private fun getResourceForMediaId(mediaId: String): Int {

@@ -38,6 +38,8 @@ import androidx.media.MediaBrowserServiceCompat
 import androidx.media.MediaBrowserServiceCompat.BrowserRoot.EXTRA_RECENT
 import com.example.android.uamp.media.extensions.album
 import com.example.android.uamp.media.extensions.albumArtUri
+import com.example.android.uamp.media.extensions.artist
+import com.example.android.uamp.media.extensions.date
 import com.example.android.uamp.media.extensions.flag
 import com.example.android.uamp.media.extensions.id
 import com.example.android.uamp.media.extensions.mediaUri
@@ -82,7 +84,7 @@ import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import java.io.File
 import java.io.IOException
-import java.util.Locale
+import java.util.*
 
 /**
  * This class is the entry point for browsing and playback commands from the APP's UI
@@ -363,6 +365,7 @@ open class MusicService : MediaBrowserServiceCompat(), TextToSpeech.OnInitListen
                                 title = item.title
                                 albumArtUri = item.thumbnail
                                 mediaUri = item.link
+                                date = item.pubDate
                                 flag = MediaItem.FLAG_BROWSABLE
                             }.build()
                             mediaItems.add(MediaItem(mediaMetadata.description, mediaMetadata.flag))
@@ -428,6 +431,7 @@ open class MusicService : MediaBrowserServiceCompat(), TextToSpeech.OnInitListen
                 val mediaMetadata = MediaMetadataCompat.Builder().apply {
                     id = "${PrefixRoot.WAV.name}__$index"
                     title = contents[0]
+                    artist = "VnExpress"
                     albumArtUri = thumbnail
                     mediaUri = "file:///$fileName"
                     flag = MediaItem.FLAG_PLAYABLE
@@ -592,8 +596,6 @@ open class MusicService : MediaBrowserServiceCompat(), TextToSpeech.OnInitListen
             playWhenReady: Boolean,
             extras: Bundle?
         ) {
-            println("AAA onPrepareFromMediaId $mediaId")
-
             val itemToPlay: MediaMetadataCompat? = listMediaMetaData.find { item ->
                 item.id == mediaId
             }
