@@ -193,17 +193,6 @@ class HomeViewModel(
             it.copy(playbackRes = useResId)
         } ?: emptyList()
     }
-
-//    fun getItemNewsList() {
-//        viewModelScope.launch {
-//            val rssObject = MarsApi.retrofitService.getAllFeeds("https://vnexpress.net/rss/tin-moi-nhat.rss")
-//            _itemNewsList.value = rssObject.items
-//        }
-//    }
-
-    init {
-//        getItemNewsList()
-    }
 }
 
 private const val NO_RES = 0

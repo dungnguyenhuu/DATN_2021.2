@@ -1,17 +1,12 @@
 package vn.app.qrcode.ui.detail
 
-import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.webkit.WebViewClient
 import androidx.lifecycle.Observer
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.base.common.base.fragment.BaseMVVMFragment
 import com.base.common.base.viewmodel.CommonEvent
-import com.bumptech.glide.Glide
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import vn.app.qrcode.R
 import vn.app.qrcode.data.model.MediaItemData
@@ -33,7 +28,7 @@ class DetailFragment : BaseMVVMFragment<CommonEvent, FragmentDetailBinding, Deta
         mediaItem = args.mediaItem
         viewModel.subscribeService(args.mediaItem.mediaId)
        viewModel.playRecord()
-        println("AAA detailFragment ${args.mediaItem.mediaUri}")
+
         setWebView()
         // Always true, but lets lint know that as well.
         val context = activity ?: return
@@ -41,7 +36,6 @@ class DetailFragment : BaseMVVMFragment<CommonEvent, FragmentDetailBinding, Deta
         // Attach observers to the LiveData coming from this ViewModel
         viewModel.mediaMetadata.observe(viewLifecycleOwner,
             Observer { mediaItem ->
-                println("AAA mediaItem in detailFragment ${mediaItem.id}")
                 updateUI(view, mediaItem)
             })
         viewModel.mediaButtonRes.observe(viewLifecycleOwner,
@@ -67,13 +61,6 @@ class DetailFragment : BaseMVVMFragment<CommonEvent, FragmentDetailBinding, Deta
      * Internal function used to update all UI elements except for the current item playback
      */
     private fun updateUI(view: View, metadata: NowPlayingMetadata) = with(viewDataBinding) {
-//        if (metadata.albumArtUri == Uri.EMPTY) {
-//            albumArt.setImageResource(R.drawable.ic_album_black_24dp)
-//        } else {
-//            Glide.with(view)
-//                .load(metadata.albumArtUri)
-//                .into(albumArt)
-//        }
         title.text = metadata.title
         subtitle.text = metadata.subtitle
         duration.text = metadata.duration

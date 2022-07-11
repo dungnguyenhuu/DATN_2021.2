@@ -1,6 +1,5 @@
 package vn.app.qrcode.ui.home
 
-import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
@@ -9,7 +8,6 @@ import com.base.common.base.fragment.BaseMVVMFragment
 import com.base.common.base.viewmodel.CommonEvent
 import com.example.android.uamp.common.Utils
 import com.example.android.uamp.media.library.UAMP_BROWSABLE_ROOT
-import com.example.android.uamp.media.library.UAMP_RECOMMENDED_ROOT
 import com.example.android.uamp.media.model.PrefixRoot
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import vn.app.qrcode.R

@@ -10,12 +10,23 @@ enum class PrefixRoot {
     API, CRW,WAV
 }
 
+enum class NewsType {
+    VN_EXPRESS,
+    TUOI_TRE
+}
+
 object VnExpressConstant {
     const val TITLE_DETAIL = ".title-detail"
     const val DESCRIPTION = ".description"
     const val LOCAL_STAMP = ".location-stamp"
     const val FCK_DETAIL = ".fck_detail"
     const val NORMAL = ".Normal"
+}
+
+object TuoiTreConstant {
+    const val TITLE_DETAIL = ".article-title"
+    const val DESCRIPTION = "h2.sapo"
+    const val MAIN_DETAIL_BODY = "#main-detail-body > p"
 }
 
 object ListNewsCategory {

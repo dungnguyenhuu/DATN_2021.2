@@ -82,7 +82,7 @@ class BrowseTree(
         val rootList = mediaIdToChildren[UAMP_BROWSABLE_ROOT] ?: mutableListOf()
 
         val recommendedMetadata = MediaMetadataCompat.Builder().apply {
-            id = generalMediaItemId(PrefixRoot.LOC, UAMP_RECOMMENDED_ROOT)
+            id = generalMediaItemId(PrefixRoot.LOC, VN_EXPRESS_ROOT)
             title = context.getString(R.string.recommended_title)
             albumArtUri = RESOURCE_ROOT_URI +
                     context.resources.getResourceEntryName(R.drawable.ic_recommended)
@@ -90,7 +90,7 @@ class BrowseTree(
         }.build()
 
         val albumsMetadata = MediaMetadataCompat.Builder().apply {
-            id = generalMediaItemId(PrefixRoot.LOC, UAMP_ALBUMS_ROOT)
+            id = generalMediaItemId(PrefixRoot.LOC, TUOI_TRE_ROOT)
             title = context.getString(R.string.albums_title)
             albumArtUri = RESOURCE_ROOT_URI +
                     context.resources.getResourceEntryName(R.drawable.ic_album)
@@ -122,7 +122,7 @@ class BrowseTree(
             mediaIdToChildren[itemId] = mutableListOf(item)
         }
 
-        mediaIdToChildren[generalMediaItemId(PrefixRoot.LOC, UAMP_RECOMMENDED_ROOT)] = vnExpressCategories
+        mediaIdToChildren[generalMediaItemId(PrefixRoot.LOC, VN_EXPRESS_ROOT)] = vnExpressCategories
     }
 
     private fun setTTChildren() {
@@ -140,7 +140,7 @@ class BrowseTree(
             vnExpressCategories += item
             mediaIdToChildren[itemId] = mutableListOf(item)
         }
-        mediaIdToChildren[generalMediaItemId(PrefixRoot.LOC, UAMP_ALBUMS_ROOT)] = vnExpressCategories
+        mediaIdToChildren[generalMediaItemId(PrefixRoot.LOC, TUOI_TRE_ROOT)] = vnExpressCategories
     }
 
     private fun generalMediaItemId(prefix: PrefixRoot, s: String): String {
@@ -155,10 +155,10 @@ class BrowseTree(
 
             // Add the first track of each album to the 'Recommended' category
             if (mediaItem.trackNumber == 1L) {
-                val recommendedChildren = mediaIdToChildren[UAMP_RECOMMENDED_ROOT]
+                val recommendedChildren = mediaIdToChildren[VN_EXPRESS_ROOT]
                     ?: mutableListOf()
                 recommendedChildren += mediaItem
-                mediaIdToChildren[UAMP_RECOMMENDED_ROOT] = recommendedChildren
+                mediaIdToChildren[VN_EXPRESS_ROOT] = recommendedChildren
             }
 
             // If this was recently played, add it to the recent root.
@@ -191,9 +191,9 @@ class BrowseTree(
         }.build()
 
         // Adds this album to the 'Albums' category.
-        val rootList = mediaIdToChildren[UAMP_ALBUMS_ROOT] ?: mutableListOf()
+        val rootList = mediaIdToChildren[TUOI_TRE_ROOT] ?: mutableListOf()
         rootList += albumMetadata
-        mediaIdToChildren[UAMP_ALBUMS_ROOT] = rootList
+        mediaIdToChildren[TUOI_TRE_ROOT] = rootList
 
         // Insert the album's root with an empty list for its children, and return the list.
         return mutableListOf<MediaMetadataCompat>().also {
@@ -204,8 +204,8 @@ class BrowseTree(
 
 const val UAMP_BROWSABLE_ROOT = "LOC__/"
 const val UAMP_EMPTY_ROOT = "@empty@"
-const val UAMP_RECOMMENDED_ROOT = "__RECOMMENDED__"
-const val UAMP_ALBUMS_ROOT = "__ALBUMS__"
+const val VN_EXPRESS_ROOT = "__VNEXPRESS__"
+const val TUOI_TRE_ROOT = "__TUOI_TRE__"
 const val UAMP_RECENT_ROOT = "__RECENT__"
 
 const val MEDIA_SEARCH_SUPPORTED = "android.media.browse.SEARCH_SUPPORTED"

@@ -36,6 +36,7 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.media.MediaBrowserServiceCompat
 import androidx.media.MediaBrowserServiceCompat.BrowserRoot.EXTRA_RECENT
+import com.example.android.uamp.common.Utils
 import com.example.android.uamp.media.extensions.album
 import com.example.android.uamp.media.extensions.albumArtUri
 import com.example.android.uamp.media.extensions.artist
@@ -54,8 +55,11 @@ import com.example.android.uamp.media.library.MusicSource
 import com.example.android.uamp.media.library.UAMP_BROWSABLE_ROOT
 import com.example.android.uamp.media.library.UAMP_EMPTY_ROOT
 import com.example.android.uamp.media.library.UAMP_RECENT_ROOT
+import com.example.android.uamp.media.library.VN_EXPRESS_ROOT
 import com.example.android.uamp.media.model.ItemNews
+import com.example.android.uamp.media.model.NewsType
 import com.example.android.uamp.media.model.PrefixRoot
+import com.example.android.uamp.media.model.TuoiTreConstant
 import com.example.android.uamp.media.model.VnExpressConstant
 import com.example.android.uamp.media.network.MarsApi
 import com.google.android.exoplayer2.C
@@ -77,7 +81,6 @@ import com.google.android.exoplayer2.util.Util.constrainValue
 import com.google.android.gms.cast.framework.CastContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import org.jsoup.Jsoup
@@ -334,6 +337,7 @@ open class MusicService : MediaBrowserServiceCompat(), TextToSpeech.OnInitListen
     private var listItemNews = listOf<ItemNews>()
 
     private var listMediaMetaData = mutableListOf<MediaMetadataCompat>()
+    private var newsType = NewsType.VN_EXPRESS
 
     /**
      * Returns (via the [result] parameter) a list of [MediaItem]s that are child
@@ -344,11 +348,15 @@ open class MusicService : MediaBrowserServiceCompat(), TextToSpeech.OnInitListen
         parentMediaId: String,
         result: Result<List<MediaItem>>
     ) {
-        println("AAA onloadchildren in service ${parentMediaId}")
         when (parentMediaId.substring(0, 3)) {
             PrefixRoot.LOC.name -> {
                 val children = browseTree[parentMediaId]?.map { item ->
                     MediaItem(item.description, item.flag)
+                }
+                if (parentMediaId == Utils.generalMediaItemId(PrefixRoot.LOC, VN_EXPRESS_ROOT)) {
+                    newsType = NewsType.VN_EXPRESS
+                } else {
+                    newsType = NewsType.TUOI_TRE
                 }
                 result.sendResult(children)
             }
@@ -380,17 +388,35 @@ open class MusicService : MediaBrowserServiceCompat(), TextToSpeech.OnInitListen
                 val itemNews = listItemNews[index]
                 serviceScope.launch(Dispatchers.IO) {
                     try {
-                        val document: Document = Jsoup.connect(itemNews.link).get()
-                        val contents = mutableListOf<String>()
-                        val titleDetail = document.select(VnExpressConstant.TITLE_DETAIL).text()
-                        val description = document.select(VnExpressConstant.DESCRIPTION).text()
-                        contents.add(titleDetail)
-                        contents.add(description)
-                        document.select(VnExpressConstant.NORMAL).forEach { element ->
-                            contents.add(element.text())
+//                        val document: Document = Jsoup.connect(itemNews.link).get()
+//                        val contents = mutableListOf<String>()
+//                        val titleDetail = document.select(VnExpressConstant.TITLE_DETAIL).text()
+//                        val description = document.select(VnExpressConstant.DESCRIPTION).text()
+//                        contents.add(titleDetail)
+//                        contents.add(description)
+//                        document.select(VnExpressConstant.NORMAL).forEach { element ->
+//                            contents.add(element.text())
+//                        }
+                        val children = if (newsType == NewsType.VN_EXPRESS) {
+                            crawAndRecordText(
+                                itemNews,
+                                VnExpressConstant.TITLE_DETAIL,
+                                VnExpressConstant.DESCRIPTION,
+                                VnExpressConstant.NORMAL
+                            )
+                        } else {
+                            crawAndRecordText(
+                                itemNews,
+                                TuoiTreConstant.TITLE_DETAIL,
+                                TuoiTreConstant.DESCRIPTION,
+                                TuoiTreConstant.MAIN_DETAIL_BODY
+                            )
                         }
-                        val children = recordText(contents, itemNews.thumbnail)
-                        result.sendResult(children)
+                        if (children.size > 0) {
+                            result.sendResult(children)
+                        } else {
+                            result.sendResult(null)
+                        }
                     } catch (e: IOException) {
                         Log.d("AAA", e.message.toString())
                     }
@@ -403,10 +429,24 @@ open class MusicService : MediaBrowserServiceCompat(), TextToSpeech.OnInitListen
         }
     }
 
-    private fun recordText(
-        contents: MutableList<String>,
-        thumbnail: String
+    private fun crawAndRecordText(
+        itemNews: ItemNews,
+        titleNews: String,
+        descriptionNews: String,
+        contentNews: String
     ): MutableList<MediaItem> {
+        // craw data
+        val document: Document = Jsoup.connect(itemNews.link).get()
+        val contents = mutableListOf<String>()
+        val titleDetail = document.select(titleNews).text()
+        val description = document.select(descriptionNews).text()
+        contents.add(titleDetail)
+        contents.add(description)
+        document.select(contentNews).forEach { element ->
+            contents.add(element.text())
+        }
+
+        // record text
         val myBundleAlarm = Bundle()
         myBundleAlarm.putString(
             TextToSpeech.Engine.KEY_PARAM_STREAM,
@@ -432,7 +472,7 @@ open class MusicService : MediaBrowserServiceCompat(), TextToSpeech.OnInitListen
                     id = "${PrefixRoot.WAV.name}__$index"
                     title = contents[0]
                     artist = "VnExpress"
-                    albumArtUri = thumbnail
+                    albumArtUri = itemNews.thumbnail
                     mediaUri = "file:///$fileName"
                     flag = MediaItem.FLAG_PLAYABLE
                 }.build()
