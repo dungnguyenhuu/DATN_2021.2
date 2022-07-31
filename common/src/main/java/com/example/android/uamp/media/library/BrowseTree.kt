@@ -85,7 +85,7 @@ class BrowseTree(
             id = generalMediaItemId(PrefixRoot.LOC, VN_EXPRESS_ROOT)
             title = context.getString(R.string.recommended_title)
             albumArtUri = RESOURCE_ROOT_URI +
-                    context.resources.getResourceEntryName(R.drawable.ic_recommended)
+                    context.resources.getResourceEntryName(R.drawable.ic_vn_express)
             flag = MediaBrowserCompat.MediaItem.FLAG_BROWSABLE
         }.build()
 
