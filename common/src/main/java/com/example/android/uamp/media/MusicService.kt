@@ -82,6 +82,7 @@ import java.util.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
@@ -334,6 +335,8 @@ open class MusicService : MediaBrowserServiceCompat(), TextToSpeech.OnInitListen
     private var listItemNews = listOf<ItemNews>()
 
     private var listMediaMetaData = mutableListOf<MediaMetadataCompat>()
+    private var currentNewsIndex = 0
+    private var currentTypeNews = VnExpressConstant.TYPE
 
     /**
      * Returns (via the [result] parameter) a list of [MediaItem]s that are child
@@ -378,26 +381,29 @@ open class MusicService : MediaBrowserServiceCompat(), TextToSpeech.OnInitListen
             PrefixRoot.CRW.name -> {
                 val index = parentMediaId.split("__")[2].toInt()
                 val type = parentMediaId.split("__")[1]
+                currentNewsIndex = index
+                currentTypeNews = type
                 val itemNews = listItemNews[index]
                 serviceScope.launch(Dispatchers.IO) {
                     try {
-                        val children = if (type == VnExpressConstant.TYPE) {
-                            crawAndRecordText(
-                                itemNews,
-                                VnExpressConstant.TITLE_DETAIL,
-                                VnExpressConstant.DESCRIPTION,
-                                VnExpressConstant.NORMAL,
-                                VnExpressConstant.TYPE_NEWS
-                            )
-                        } else {
-                            crawAndRecordText(
-                                itemNews,
-                                TuoiTreConstant.TITLE_DETAIL,
-                                TuoiTreConstant.DESCRIPTION,
-                                TuoiTreConstant.MAIN_DETAIL_BODY,
-                                TuoiTreConstant.TYPE_NEWS
-                            )
-                        }
+//                        val children = if (type == VnExpressConstant.TYPE) {
+//                            crawAndRecordText(
+//                                itemNews,
+//                                VnExpressConstant.TITLE_DETAIL,
+//                                VnExpressConstant.DESCRIPTION,
+//                                VnExpressConstant.NORMAL,
+//                                VnExpressConstant.TYPE_NEWS
+//                            )
+//                        } else {
+//                            crawAndRecordText(
+//                                itemNews,
+//                                TuoiTreConstant.TITLE_DETAIL,
+//                                TuoiTreConstant.DESCRIPTION,
+//                                TuoiTreConstant.MAIN_DETAIL_BODY,
+//                                TuoiTreConstant.TYPE_NEWS
+//                            )
+//                        }
+                        val children = switchCrawlAndRecordText(type, itemNews)
                         if (children.size > 0) {
                             result.sendResult(children)
                         } else {
@@ -415,6 +421,26 @@ open class MusicService : MediaBrowserServiceCompat(), TextToSpeech.OnInitListen
         }
     }
 
+    private fun switchCrawlAndRecordText(type: String, itemNews: ItemNews): MutableList<MediaItem> {
+        return if (type == VnExpressConstant.TYPE) {
+            crawAndRecordText(
+                itemNews,
+                VnExpressConstant.TITLE_DETAIL,
+                VnExpressConstant.DESCRIPTION,
+                VnExpressConstant.NORMAL,
+                VnExpressConstant.TYPE_NEWS
+            )
+        } else {
+            crawAndRecordText(
+                itemNews,
+                TuoiTreConstant.TITLE_DETAIL,
+                TuoiTreConstant.DESCRIPTION,
+                TuoiTreConstant.MAIN_DETAIL_BODY,
+                TuoiTreConstant.TYPE_NEWS
+            )
+        }
+    }
+
     private fun crawAndRecordText(
         itemNews: ItemNews,
         titleNews: String,
@@ -423,6 +449,7 @@ open class MusicService : MediaBrowserServiceCompat(), TextToSpeech.OnInitListen
         typeNews: String,
     ): MutableList<MediaItem> {
         // craw data
+        println("AAA crawl data")
         val document: Document = Jsoup.connect(itemNews.link).get()
         val contents = mutableListOf<String>()
         val titleDetail = document.select(titleNews).text()
@@ -444,7 +471,9 @@ open class MusicService : MediaBrowserServiceCompat(), TextToSpeech.OnInitListen
         val mediaItems = mutableListOf<MediaItem>()
         val mediaMetadataCompats = mutableListOf<MediaMetadataCompat>()
         contents.forEachIndexed { index, content ->
-            val fileName = this@MusicService.cacheDir.absolutePath + "tts_$index.wav"
+            val timestamp = System.currentTimeMillis()
+            val fileName = this@MusicService.cacheDir.absolutePath + "tts_${index}_${timestamp}.wav"
+            println("AAA filename $fileName")
             val soundFile = File(fileName)
             if (soundFile.exists()) soundFile.delete()
             if (tts!!.synthesizeToFile(
@@ -456,7 +485,7 @@ open class MusicService : MediaBrowserServiceCompat(), TextToSpeech.OnInitListen
             ) {
                 println("AAA Sound file created")
                 val mediaMetadata = MediaMetadataCompat.Builder().apply {
-                    id = "${PrefixRoot.WAV.name}__$index"
+                    id = "${PrefixRoot.WAV.name}__${index}_${timestamp}"
                     title = contents[0]
                     artist = typeNews
                     albumArtUri = itemNews.thumbnail
@@ -750,7 +779,28 @@ open class MusicService : MediaBrowserServiceCompat(), TextToSpeech.OnInitListen
                 }
                 else -> {
                     println("AAA onPlayerStateChanged other")
+                    println("AAA currentMediaItemIndex $currentMediaItemIndex -- ${listMediaMetaData.size}")
+                    println("AAA currentNewsIndex $currentNewsIndex -- ${listItemNews.size}")
                     notificationManager.hideNotification()
+                    if (currentMediaItemIndex == listMediaMetaData.size - 1 && currentNewsIndex < listItemNews.size - 1) {
+                        println("AAA next")
+                        serviceScope.launch(Dispatchers.IO) {
+                            currentNewsIndex++
+                            switchCrawlAndRecordText(
+                                currentTypeNews,
+                                listItemNews[currentNewsIndex]
+                            )
+                        }
+                        serviceScope.launch(Dispatchers.Main) {
+                            delay(5000)
+                            preparePlaylist(
+                                listMediaMetaData,
+                                listMediaMetaData[0],
+                                playWhenReady,
+                                C.TIME_UNSET
+                            )
+                        }
+                    }
                 }
             }
         }
@@ -771,18 +821,27 @@ open class MusicService : MediaBrowserServiceCompat(), TextToSpeech.OnInitListen
         }
 
         override fun onPlayerError(error: PlaybackException) {
-            var message = R.string.generic_error;
-            Log.e(TAG, "Player error: " + error.errorCodeName + " (" + error.errorCode + ")");
-            if (error.errorCode == PlaybackException.ERROR_CODE_IO_BAD_HTTP_STATUS
-                || error.errorCode == PlaybackException.ERROR_CODE_IO_FILE_NOT_FOUND
-            ) {
-                message = R.string.error_media_not_found;
+            if (currentMediaItemIndex < listMediaMetaData.size) {
+                preparePlaylist(
+                    listMediaMetaData,
+                    listMediaMetaData[currentMediaItemIndex],
+                    true,
+                    C.TIME_UNSET
+                )
+            } else {
+                var message = R.string.generic_error;
+                Log.e(TAG, "Player error: " + error.errorCodeName + " (" + error.errorCode + ")");
+                if (error.errorCode == PlaybackException.ERROR_CODE_IO_BAD_HTTP_STATUS
+                    || error.errorCode == PlaybackException.ERROR_CODE_IO_FILE_NOT_FOUND
+                ) {
+                    message = R.string.error_media_not_found;
+                }
+                Toast.makeText(
+                    applicationContext,
+                    message,
+                    Toast.LENGTH_LONG
+                ).show()
             }
-            Toast.makeText(
-                applicationContext,
-                message,
-                Toast.LENGTH_LONG
-            ).show()
         }
     }
 
