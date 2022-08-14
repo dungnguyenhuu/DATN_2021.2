@@ -778,12 +778,12 @@ open class MusicService : MediaBrowserServiceCompat(), TextToSpeech.OnInitListen
                     }
                 }
                 else -> {
-                    println("AAA onPlayerStateChanged other")
-                    println("AAA currentMediaItemIndex $currentMediaItemIndex -- ${listMediaMetaData.size}")
-                    println("AAA currentNewsIndex $currentNewsIndex -- ${listItemNews.size}")
+//                    println("AAA onPlayerStateChanged other")
+//                    println("AAA currentMediaItemIndex $currentMediaItemIndex -- ${listMediaMetaData.size}")
+//                    println("AAA currentNewsIndex $currentNewsIndex -- ${listItemNews.size}")
                     notificationManager.hideNotification()
                     if (currentMediaItemIndex == listMediaMetaData.size - 1 && currentNewsIndex < listItemNews.size - 1) {
-                        println("AAA next")
+//                        println("AAA next")
                         serviceScope.launch(Dispatchers.IO) {
                             currentNewsIndex++
                             switchCrawlAndRecordText(
@@ -846,6 +846,7 @@ open class MusicService : MediaBrowserServiceCompat(), TextToSpeech.OnInitListen
     }
 
     override fun onInit(status: Int) {
+        println("AAA status $status")
         if (status == TextToSpeech.SUCCESS) {
             // set US English as language for tts
             val result = tts!!.setLanguage(Locale("vi_VN"))

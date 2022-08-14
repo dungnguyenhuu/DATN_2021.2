@@ -181,7 +181,7 @@ class DetailViewModel(
     fun playRecord() {
         viewModelScope.launch {
             delay(5000)
-            println("AAA viewmodel ${_mediaItems.value?.get(0)?.mediaId}")
+//            println("AAA viewmodel ${_mediaItems.value?.get(0)?.mediaId}")
             _mediaItems.value?.let { playMedia(it[0],false) }
         }
     }
