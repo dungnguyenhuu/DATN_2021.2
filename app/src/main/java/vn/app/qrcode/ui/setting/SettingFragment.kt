@@ -4,13 +4,9 @@ import android.os.Bundle
 import android.speech.tts.TextToSpeech
 import android.speech.tts.Voice
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.widget.Toast
 import com.base.common.base.fragment.BaseMVVMFragment
 import com.base.common.base.viewmodel.CommonEvent
-import com.example.android.uamp.media.PersistentStorage
 import java.util.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import vn.app.qrcode.R
@@ -25,7 +21,6 @@ class SettingFragment : BaseMVVMFragment<CommonEvent, FragmentSettingBinding, Se
         fun newInstance() = SettingFragment()
     }
     private var tts: TextToSpeech? = null
-    private lateinit var storage: PersistentStorage
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
