@@ -450,6 +450,8 @@ open class MusicService : MediaBrowserServiceCompat(), TextToSpeech.OnInitListen
     ): MutableList<MediaItem> {
         // craw data
         println("AAA crawl data")
+//        val voiceName = storage.loadVoiceName()
+//        println("AAA voice choose $voiceName ")
         val document: Document = Jsoup.connect(itemNews.link).get()
         val contents = mutableListOf<String>()
         val titleDetail = document.select(titleNews).text()

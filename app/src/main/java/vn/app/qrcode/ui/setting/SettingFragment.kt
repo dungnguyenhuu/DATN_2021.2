@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import com.base.common.base.fragment.BaseMVVMFragment
 import com.base.common.base.viewmodel.CommonEvent
+import com.example.android.uamp.media.PersistentStorage
 import java.util.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import vn.app.qrcode.R
@@ -24,6 +25,7 @@ class SettingFragment : BaseMVVMFragment<CommonEvent, FragmentSettingBinding, Se
         fun newInstance() = SettingFragment()
     }
     private var tts: TextToSpeech? = null
+    private lateinit var storage: PersistentStorage
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,9 +59,7 @@ class SettingFragment : BaseMVVMFragment<CommonEvent, FragmentSettingBinding, Se
     private fun speakVoice(voiceName: String) {
         val a: MutableSet<String> = HashSet()
         a.add("male") //here you can give male if you want to select male voice.
-
         val v = Voice(voiceName, Locale("vi_VN"), 400, 200, true, a)
-
         val resultSetVoice: Int =  tts!!.setVoice(v)
         println("AAA resultSetVoice $resultSetVoice")
         tts!!.speak("Xin chào các bạn", TextToSpeech.QUEUE_FLUSH, null,"")

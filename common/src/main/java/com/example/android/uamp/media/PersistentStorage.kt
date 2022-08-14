@@ -28,7 +28,7 @@ import com.example.android.uamp.media.extensions.asAlbumArtContentUri
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-internal class PersistentStorage private constructor(val context: Context) {
+class PersistentStorage private constructor(val context: Context) {
 
     /**
      * Store any data which must persist between restarts, such as the most recently played song.
@@ -93,6 +93,10 @@ internal class PersistentStorage private constructor(val context: Context) {
                     .build(), FLAG_PLAYABLE
             )
         }
+    }
+
+    fun loadVoiceName(): String? {
+        return preferences.getString("choose_voice", "vi-vn-x-vic-local")
     }
 }
 
