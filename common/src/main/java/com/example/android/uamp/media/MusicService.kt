@@ -470,6 +470,7 @@ open class MusicService : MediaBrowserServiceCompat(), TextToSpeech.OnInitListen
         myBundleAlarm.putString(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "dung_nh99")
         val mediaItems = mutableListOf<MediaItem>()
         val mediaMetadataCompats = mutableListOf<MediaMetadataCompat>()
+        val contentsSize = contents.size
         contents.forEachIndexed { index, content ->
             val timestamp = System.currentTimeMillis()
             val fileName = this@MusicService.cacheDir.absolutePath + "tts_${index}_${timestamp}.wav"
@@ -486,7 +487,7 @@ open class MusicService : MediaBrowserServiceCompat(), TextToSpeech.OnInitListen
                 println("AAA Sound file created")
                 val mediaMetadata = MediaMetadataCompat.Builder().apply {
                     id = "${PrefixRoot.WAV.name}__${index}_${timestamp}"
-                    title = contents[0]
+                    title = "$index/$contentsSize ${contents[0]}"
                     artist = typeNews
                     albumArtUri = itemNews.thumbnail
                     mediaUri = "file:///$fileName"
