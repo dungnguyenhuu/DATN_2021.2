@@ -2,13 +2,16 @@ package vn.app.qrcode.ui.home
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.base.common.base.fragment.BaseMVVMFragment
 import com.base.common.base.viewmodel.CommonEvent
+import com.base.common.utils.ext.setDebounceClickListener
 import com.example.android.uamp.common.Utils
 import com.example.android.uamp.media.library.UAMP_BROWSABLE_ROOT
 import com.example.android.uamp.media.model.PrefixRoot
+import kotlinx.android.synthetic.main.view_home_header.view.settingBtn
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import vn.app.qrcode.R
 import vn.app.qrcode.databinding.FragmentHomeBinding
@@ -40,6 +43,10 @@ class HomeFragment : BaseMVVMFragment<CommonEvent, FragmentHomeBinding, HomeView
             Observer { list ->
                 categoryAdapter.submitList(list)
             })
+
+        viewDataBinding.viewHeader.settingBtn.setDebounceClickListener{
+            findNavController().navigate(R.id.action_home_to_settingFragment)
+        }
     }
 
     private fun setupNewsRecycleView() {

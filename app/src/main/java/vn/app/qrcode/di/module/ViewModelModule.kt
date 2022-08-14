@@ -8,6 +8,7 @@ import vn.app.qrcode.ui.dashboard.DashBoardViewModel
 import vn.app.qrcode.ui.detail.DetailViewModel
 import vn.app.qrcode.ui.home.HomeViewModel
 import vn.app.qrcode.ui.news.NewsViewModel
+import vn.app.qrcode.ui.setting.SettingViewModel
 import vn.app.qrcode.ui.skipauth.SkipAuthViewModel
 import vn.app.qrcode.ui.splash.SplashViewModel
 
@@ -20,4 +21,5 @@ val viewModelModule = module {
     viewModel { CategoryViewModel(get()) }
     viewModel { NewsViewModel(get()) }
     viewModel { DetailViewModel(get(), get()) }
+    viewModel { SettingViewModel() }
 }

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="Photo Filters">
+        <vn.app.qrcode.ui.setting.RadioButtonPreference
+            android:key="naturals"
+            android:title="Natural" />
+        <vn.app.qrcode.ui.setting.RadioButtonPreference
+            android:key="boosted"
+            android:title="Boosted" />
+        <vn.app.qrcode.ui.setting.RadioButtonPreference
+            android:key="saturated"
+            android:title="Saturated" />
+    </PreferenceCategory>
+</PreferenceScreen>

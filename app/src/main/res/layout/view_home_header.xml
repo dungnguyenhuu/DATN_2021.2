@@ -43,6 +43,13 @@
         </androidx.appcompat.widget.LinearLayoutCompat>
     </androidx.cardview.widget.CardView>
 
+    <ImageView
+        android:id="@+id/settingBtn"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:src="@drawable/ic_baseline_settings_24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
     <include
         android:id="@+id/view_search_header"
         layout="@layout/view_search_header"

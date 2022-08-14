@@ -73,6 +73,7 @@ dependencies {
     implementation project(path: ':common')
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.4.1'
+    implementation 'androidx.preference:preference-ktx:1.2.0'
     kapt "com.github.bumptech.glide:compiler:$glideVersion"
     kapt "com.android.databinding:compiler:$compiler_version"
     implementation 'com.android.support:multidex:1.0.3'
